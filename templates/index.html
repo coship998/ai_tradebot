@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Market Intelligence</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body> 
+    
+    <nav class="topbar">
+        <a href="/" class="logo">
+            <span style="background: white; color: var(--accent); padding: 2px 6px; font-size: 0.8rem;">AI</span> 
+            Market Intel Workspace
+        </a>
+        <div class="search-box">
+            <input type="text" id="searchInput" class="search-input" placeholder="TICKER" autocomplete="off">
+            <button class="btn" onclick="search()">GO</button>
+        </div>
+    </nav>
+
+    <div class="dash-wrapper">
+        <div class="dash-header">Global Equities Watchlist</div>
+        
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Last Price</th>
+                    <th>24h Chg (%)</th>
+                    <th>AI Algorithmic Signal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in stocks %}
+                <tr onclick="window.location.href='/stock/{{ stock.symbol }}'">
+                    
+                    <td style="font-weight: 700; font-size: 0.95rem;">{{ stock.symbol }}</td>
+                    
+                    <td class="mono-font" style="font-weight: 600; font-size: 0.95rem;">${{ stock.price }}</td>
+                    
+                    <td class="mono-font {% if stock.change_pct > 0 %}val-up{% else %}val-down{% endif %}" style="font-weight: 600; font-size: 0.95rem;">
+                        {% if stock.change_pct > 0 %}▲{% else %}▼{% endif %} {{ stock.change_pct }}%
+                    </td>
+                    
+                    <td>
+                        <span class="status-badge {% if stock.sentiment == 'Bullish' %}status-bullish{% else %}status-bearish{% endif %}">
+                            {{ stock.sentiment }}
+                        </span>
+                    </td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function search() { 
+            const val = document.getElementById('searchInput').value.toUpperCase().trim(); 
+            if(val) window.location.href = `/stock/${val}`; 
+        }
+        document.getElementById('searchInput').addEventListener('keypress', e => { 
+            if(e.key === 'Enter') search(); 
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500;600;700&display=swap');
+
+:root {
+    /* Strict Institutional Colors */
+    --bg-main: #ebf0f4; 
+    --bg-card: #ffffff;
+    --text-main: #111827; 
+    --text-muted: #6b7280;
+    --border: #d1d5db; 
+    --accent: #111827;
+    
+    /* Trading Colors (Accessible High Contrast) */
+    --up: #059669; 
+    --up-bg: #ecfdf5;
+    --down: #dc2626; 
+    --down-bg: #fef2f2;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
+.mono-font { font-family: 'Roboto Mono', monospace; }
+
+/* =========================================================
+   GLOBAL: Top Navigation
+   ========================================================= */
+.topbar { height: 50px; background: var(--accent); color: white; display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem; flex-shrink: 0; }
+.logo { font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: white; letter-spacing: 1px; text-transform: uppercase;}
+.search-box { display: flex; }
+.search-input { padding: 0.3rem 0.6rem; border: none; outline: none; width: 200px; font-size: 0.85rem; font-family: 'Roboto Mono', monospace;}
+.btn { background: #374151; color: white; border: none; padding: 0.3rem 0.8rem; cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: background 0.2s;}
+.btn:hover { background: #4b5563; }
+
+/* =========================================================
+   PAGE 1: DASHBOARD (index.html)
+   ========================================================= */
+.dash-wrapper { padding: 1.5rem; height: calc(100vh - 50px); overflow-y: auto; }
+.dash-header { font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--accent); }
+
+/* Strict Data Table */
+.data-table { width: 100%; border-collapse: collapse; background: var(--bg-card); border: 1px solid var(--border); box-shadow: 0 1px 2px rgba(0,0,0,0.05);}
+.data-table th { text-align: left; padding: 0.75rem 1rem; font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); border-bottom: 2px solid var(--border); background: #f9fafb; font-weight: 700; letter-spacing: 0.5px;}
+.data-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.data-table tr:hover td { background: #f3f4f6; cursor: pointer; }
+
+/* Status Badges */
+.status-badge { padding: 2px 6px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid; border-radius: 3px;}
+.status-bullish { background: var(--up-bg); color: var(--up); border-color: var(--up);}
+.status-bearish { background: var(--down-bg); color: var(--down); border-color: var(--down);}
+
+/* =========================================================
+   PAGE 2: TERMINAL (stock.html)
+   ========================================================= */
+.terminal-container { display: grid; grid-template-columns: 1.8fr 1fr; gap: 4px; padding: 4px; height: calc(100vh - 50px); min-height: 0; background: var(--border); }
+
+/* Strict Cards */
+.card { background: var(--bg-card); display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
+.card-header { padding: 0.5rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; background: #f9fafb; flex-shrink: 0; letter-spacing: 0.5px;}
+.card-body { padding: 1rem; flex: 1; overflow-y: auto; min-height: 0; }
+
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
+.metric-value { font-size: 1.1rem; font-weight: 600; color: var(--text-main); }
+.metric-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; font-weight: 700; letter-spacing: 0.5px;}
+
+/* Timeframe Buttons */
+.time-btn { background: transparent; color: var(--text-muted); border: 1px solid transparent; padding: 2px 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer; border-radius: 3px;}
+.time-btn:hover { color: var(--text-main); }
+.time-btn.active { background: var(--border); color: var(--text-main); }
+
+/* =========================================================
+   SHARED UTILITIES
+   ========================================================= */
+.val-up { color: var(--up) !important; }
+.val-down { color: var(--down) !important; }
+
+/* Skeletons */
+.skel { background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%); background-size: 200% 100%; animation: load 1.5s infinite; border-radius: 2px;}
+@keyframes load { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }

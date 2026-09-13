@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ symbol }} - Terminal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="topbar">
+        <a href="/" class="logo">
+            <span style="background: white; color: var(--accent); padding: 2px 6px; font-size: 0.8rem;">AI</span> 
+            Market Intel Workspace
+        </a>
+        <div class="flex-between" style="gap: 1.5rem;">
+            <div style="text-align: right; display: flex; align-items: baseline; gap: 0.5rem;">
+                <div style="font-size:0.7rem; color: #9ca3af; font-weight:600; text-transform: uppercase;">{{ symbol }} Last</div>
+                <h2 id="live-price" class="mono-font" style="line-height: 1; font-size: 1.4rem; margin: 0; color: white;">${{ price }}</h2>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="TICKER">
+                <button class="btn" onclick="search()">GO</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="terminal-container">
+        
+        <div style="display: flex; flex-direction: column; gap: 4px; min-height: 0;">
+            
+            <div class="card" style="flex: 1.5; min-height: 0;">
+                <div class="card-header flex-between">
+                    <span>Price Action</span>
+                    <div id="timeframe-controls" style="display: flex;">
+                        <button class="time-btn" onclick="updateChart('5d', this)">1W</button>
+                        <button class="time-btn active" onclick="updateChart('1mo', this)">1M</button>
+                        <button class="time-btn" onclick="updateChart('3mo', this)">3M</button>
+                        <button class="time-btn" onclick="updateChart('6mo', this)">6M</button>
+                        <button class="time-btn" onclick="updateChart('1y', this)">1Y</button>
+                        <button class="time-btn" onclick="updateChart('5y', this)">5Y</button>
+                    </div>
+                </div>
+                <div class="card-body" style="position: relative; padding: 1rem; overflow: hidden;">
+                    <canvas id="stockChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card" style="flex: 1; min-height: 0;">
+                <div class="card-header">Live Catalysts Feed</div>
+                <div class="card-body" id="news-box" style="padding: 0;">
+                    <div style="padding: 1rem;"><div class="skel" style="height: 20px;"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 4px; min-height: 0;">
+            
+            <div class="card" style="flex: 1; min-height: 0;">
+                <div class="card-header" style="color: var(--accent);">Algorithmic Synthesis (Llama-3.1)</div>
+                <div class="card-body" id="ai-box" style="padding: 1.2rem;">
+                    <div class="skel" style="height: 24px; width: 40%; margin-bottom: 12px;"></div>
+                    <div class="skel" style="height: 10px; width: 100%; margin-bottom: 6px;"></div>
+                    <div class="skel" style="height: 10px; width: 90%; margin-bottom: 15px;"></div>
+                </div>
+            </div>
+
+            <div class="card" style="flex-shrink: 0;">
+                <div class="card-header">Quantitative Data</div>
+                <div class="card-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1rem 1.2rem;" id="tech-box">
+                    <div><div class="metric-label">RSI (14)</div><div class="metric-value mono-font skel" id="t-rsi" style="height:18px; width:50%;"></div></div>
+                    <div><div class="metric-label">Trend Line</div><div class="metric-value skel" id="t-trend" style="height:18px; width:50%;"></div></div>
+                    <div><div class="metric-label">Volume</div><div class="metric-value mono-font skel" id="t-vol" style="height:18px; width:80%;"></div></div>
+                    <div><div class="metric-label">Volatility (B-Bands)</div><div class="metric-value mono-font skel" id="t-bb" style="height:18px; width:80%;"></div></div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        const SYM = "{{ symbol }}", DATES = {{ dates | safe }}, PRICES = {{ prices | safe }};
+        function search() { const val = document.getElementById('searchInput').value.toUpperCase().trim(); if(val) window.location.href = `/stock/${val}`; }
+        document.getElementById('searchInput').addEventListener('keypress', e => { if(e.key === 'Enter') search(); });
+    </script>
+    <script src="{{ url_for('static', filename='js/stock.js') }}"></script>
+</body>
+</html>
